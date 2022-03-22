@@ -1,21 +1,28 @@
-// 手写一个 bind 函数
-Function.prototype._bind = function(context) {
-    // 判断调用者是否为函数
-    if (typeof this !== 'function') {
-        throw new TypeError('Error')
-    }
-    // 截取传递的参数
-    const args = Array.from(arguments).slice(1)
-        // _this 指向调用的函数
-    const _this = this;
-    // 返回一个函数
-    return function F() {
-        // 因为返回了一个函数，我们可以 new F()，所以需要判断
-        // 对于 new 的情况来说，不会被任何方式改变 this
-        if (this instanceof F) {
-            return new _this(...args, ...arguments)
-        } else {
-            return _this.apply(context, args.concat(...arguments))
+/**
+ * @param {number[]} nums
+ * @return {number[][]}
+ */
+var threeSum = function(nums) {
+    let ans = [];
+    const len = nums.length;
+    if (nums == null || len < 3) return ans;
+    nums.sort((a, b) => a - b); // 排序
+    for (let i = 0; i < len; i++) {
+        if (nums[i] > 0) break; // 如果当前数字大于0，则三数之和一定大于0，所以结束循环
+        if (i > 0 && nums[i] == nums[i - 1]) continue; // 去重
+        let L = i + 1;
+        let R = len - 1;
+        while (L < R) {
+            const sum = nums[i] + nums[L] + nums[R];
+            if (sum == 0) {
+                ans.push([nums[i], nums[L], nums[R]]);
+                while (L < R && nums[L] == nums[L + 1]) L++; // 去重
+                while (L < R && nums[R] == nums[R - 1]) R--; // 去重
+                L++;
+                R--;
+            } else if (sum < 0) L++;
+            else if (sum > 0) R--;
         }
     }
-}
+    return ans;
+};
