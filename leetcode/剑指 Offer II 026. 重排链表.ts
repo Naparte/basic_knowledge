@@ -10,25 +10,21 @@
  * }
  */
 
-function mergeTwoLists(
-  l1: ListNode | null,
-  l2: ListNode | null
-): ListNode | null {
-  if (!l1 && !l2) {
-    return null;
+/**
+ Do not return anything, modify head in-place instead.
+ */
+function reorderList(head: ListNode | null): void {
+  let temp: (ListNode | null)[] = [];
+  let frontPoint = head;
+  while (frontPoint) {
+    temp.push(frontPoint);
+    frontPoint = frontPoint.next;
   }
-
-  if (!l1 || !l2) {
-    return l1 || l2;
+  let i = 0,
+    j = temp.length - 1;
+  for (; i < j; i++, j--) {
+    temp[i].next = temp[j];
+    temp[j].next = temp[i + 1];
   }
-  let head = new ListNode();
-
-  if (l1.val > l2.val) {
-    head.val = l2.val;
-    head.next = mergeTwoLists(l1, l2.next)
-  } else {
-    head.val = l1.val;
-    head.next = mergeTwoLists(l1.next, l2)
-  }
-  return head
+  temp[i].next = null;
 }
