@@ -12,11 +12,11 @@ function kSmallestPairs(
       //   break;
       // }
       mHeap.insert(item);
-      console.log(mHeap.heap);
     }
   }
 
-  return mHeap.heap;
+  return mHeap.heap.sort((a, b) => (a[0] + a[1]) - (b[0] + b[1]));
+  ;
 }
 
 class maxHeap {
@@ -85,6 +85,7 @@ class maxHeap {
     if (this.size === 1) {
       this.heap.pop();
     } else {
+      console.log(this.heap[0]);
       this.heap[0] = this.heap.pop() as number[];
 
       this.moveDown(0);
@@ -96,10 +97,13 @@ class maxHeap {
   }
 
   insert(item) {
-    this.heap.push(item);
-    this.moveUp(this.heap.length - 1);
-    if (this.size > this.maxSize) {
-      this.pop();
+    if (this.size < this.maxSize) {
+      this.heap.push(item);
+      this.moveUp(this.heap.length - 1);
+    }else if(item[0]+ item[1]< this.peek[0] + this.peek[1]){
+      this.heap[0] = item;
+      this.moveDown(0);
     }
+
   }
 }

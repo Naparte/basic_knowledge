@@ -11,8 +11,9 @@ function topKFrequent(nums: number[], k: number): number[] {
   });
 
   let mHeap: minHeap = new minHeap();
+
   Object.keys(map).forEach((value) => {
-    mHeap.insert({ key: map[value], value });
+    mHeap.insert({ key: map[value], value } as unknown as heapItem);
     if (mHeap.size > k) {
       mHeap.pop();
     }
@@ -30,7 +31,7 @@ class minHeap {
   }
   insert(obj: heapItem): void {
     this.heap.push(obj);
-    this.moveDown(this.heap.length - 1);
+    this.moveUp(this.heap.length - 1);
   }
 
   pop() {
@@ -47,7 +48,7 @@ class minHeap {
       return;
     }
     let pIndex = this.getPindex(index);
-    if (this.heap[index].key < this.heap[pIndex].key) {
+    if (this.heap[index].key < this.heap[pIndex]?.key) {
       this.swap(index, pIndex);
       this.moveUp(pIndex);
     }
@@ -57,11 +58,11 @@ class minHeap {
     let lIndex = this.getLindex(index);
     let rIndex = this.getRindex(index);
 
-    if (this.heap[index].key > this.heap[lIndex].key) {
+    if (this.heap[index].key > this.heap[lIndex]?.key) {
       this.swap(lIndex, index);
       this.moveDown(lIndex);
     }
-    if (this.heap[index].key > this.heap[rIndex].key) {
+    if (this.heap[index].key > this.heap[rIndex]?.key) {
       this.swap(rIndex, index);
       this.moveDown(rIndex);
     }
