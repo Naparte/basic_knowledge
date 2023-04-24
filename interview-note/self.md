@@ -14,3 +14,19 @@
 
 [参考资料：阮一峰 MVC，MVP 和 MVVM 的图示](https://www.ruanyifeng.com/blog/2015/02/mvcmvp_mvvm.html)
 [关于 MVVM 和 MVC](https://xie.infoq.cn/article/7dbd9bf5cbb7ec18f84c2fd45)
+
+
+> 为什么要通过action => mutation => state 这样变化
+
+
+
+> 实现数据联动的方式有哪些
+1. 数据劫持，数据拦截并且相应的改造
+2. 脏值检查 轮训 or 实时回调
+3. 发布-订阅 首回合需要做一个通知操作
+
+追问：要实现这些方式，双向数据绑定元素
+
+
+> Proxy 和 definePropertiy 优势
+追问：哪些数组方式是可以被感知的

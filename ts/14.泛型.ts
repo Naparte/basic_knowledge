@@ -49,7 +49,7 @@ interface Data2 {
   sex: string;
 }
 
-type Options<T extends object> = {
+type Options<T extends object> = {·
   readonly [Key in keyof T]?: T[Key];
 };
 

@@ -10,8 +10,6 @@ function* gen() {
 const my = gen();
 my.next();
 my.next();
-my.next();
-my.next();
 
 // 2.迭代器
 // 3.set map
@@ -42,3 +40,31 @@ for (const value of set) {
 }
 
 // 6. 数组底层解构原理就是调用 iterator
+
+// 7. 让对象支持for of
+
+let obj = {
+  max: 5,
+  current: 0,
+  [Symbol.iterator]() {
+    return {
+      max: this.max,
+      current: this.current,
+      next() {
+        if (this.current === this.max) {
+          return {
+            done: true,
+            value: undefined,
+          };
+        }
+
+        return {
+          done: false,
+          value: this.current++,
+        };
+      },
+    };
+  },
+};
+
+let x = [obj]; // [1, 2,3,4]
