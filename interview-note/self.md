@@ -17,7 +17,7 @@
 
 
 > 为什么要通过action => mutation => state 这样变化
-
+- 不建议使用this.$store直接修改值，防止数据被同时修改； -- todo
 
 
 > 实现数据联动的方式有哪些
