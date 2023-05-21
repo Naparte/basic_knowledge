@@ -1,0 +1,3 @@
+[submodule "reading-notes"]
+	path = reading-notes
+	url = git@github.com:Naparte/reading-notes.git
