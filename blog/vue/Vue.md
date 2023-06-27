@@ -207,69 +207,73 @@
                 }
             }
         })
-    14.说一下vue的动态路由。
-        要在路由配置里设置meat属性，扩展权限相关的字段，在路由导航守卫里通过判断这个权限标识，实现路由的动态增加和跳转
-        根据用户登录的账号，返回用户角色
-        前端再根据角色，跟路由表的meta.role进行匹配
-        把匹配搭配的路由形成可访问的路由
-15.如何解决刷新后二次加载路由？
-        1.window.location.reload()
-        2.matcher
-            const router = createRouter()
-            export function resetRouter(){
-                const newRouter = creatRouter()
-                router.matcher = newRouter.matcher
-            }
-16.vuex刷新数据会丢失吗？怎么解决？
-        vuex肯定会重新获取数据，页面也会丢失数据
-        1.把数据直接保存在浏览器缓存里（cookie  localstorage  sessionstorage）
-        2.页面刷新的时候，再次请求数据，达到可以动态更新的方法
-            监听浏览器的刷新书简，在刷新前把数据保存到sessionstorage里，刷新后请求数据，请求到了用vuex，如果没有那就用sessionstorage里的数据
-17.computed和watch的区别？
-        1.computed是计算属性，watch是监听，监听的是data中数据的变化
-        2.computed是支持缓存，依赖的属性值发生变化，计算属性才会重新计算，否则用缓存；watch不支持缓存
-        3.computed不支持异步，watch是可以异步操作
-        4.computed是第一次加载就监听，watch是不监听
-        5.computed函数中必须有return  watch不用
-18.vuex在什么场景会去使用？属性有哪些？
-        state       存储变量
-        getters     state的计算属性
-        mutations   提交更新数据的方法
-        actions     和mutations差不多，他是提交mutations来修改数据，可以包括异步操作
-        modules     模块化vuex
-        使用场景：
-            用户的个人信息、购物车模块、订单模块
-19.vue的双向数据绑定原理是什么？
-        通过数据劫持和发布订阅者模式来实现，同时利用Object.defineProperty()劫持各个属性的setter和getter，
-        在数据发生改变的时候发布消息给订阅者，触发对应的监听回调渲染视图，也就是说数据和视图时同步的，数据发生改变，视图跟着发生改变，视图改变，数据也会发生改变。
-        第一步：需要observer的数据对象进行递归遍历，包括子属性对象的属性，都加上setter和getter
-        第二步：compile模板解析指令，把模板中的变量替换成数据，然后初始化渲染视图，同时把每个指令对应的节点绑定上更新函数，添加订阅者，如果数据变化，收到通知，更新视图
-        第三步：Watcher订阅者是Observer和Compile之间的通信桥梁，作用：
-                1.在自身实例化的时候忘订阅器内添加自己
-                2.自身要有一个update()方法
-                3.等待属性变动时，调用自身的update方法，触发compile这种的回调
-        第四步：MVVM作为数据绑定的入口，整合了observer、compile和watcher三者，通过observer来监听自己的数据变化，通过compile解析模板指令，最后利用watcher把observer和compile联系起来，最终达到数据更新视图更新，视图更新数据更新的效果
-20.了解diff算法和虚拟DOM吗？
-        虚拟DOM，描述元素和元素之间的关系，创建一个JS对象
-        如果组件内有响应的数据，数据发生改变的时候，render函数会生成一个新的虚拟DOM，这个新的虚拟DOM会和旧的虚拟DOM进行比对，找到需要修改的虚拟DOM内容，然后去对应的真实DOM中修改
-        diff算法就是虚拟DOM的比对时用的，返回一个patch对象，这个对象的作用就是存储两个节点不同的地方，最后用patch里记录的信息进行更新真实DOM
-        步骤：
-            1.JS对象表示真实的DOM结构，要生成一个虚拟DOM，再用虚拟DOM构建一个真实DOM树，渲染到页面
-            2.状态改变生成新的虚拟DOM，跟就得虚拟DOM进行比对，这个比对的过程就是DIFF算法，利用patch记录差异
-            3.把记录的差异用在第一个虚拟DOM生成的真实DOM上，视图就更新了。
-21.vue和jquery的区别是什么？
-        1.原理不同
-            vue就是数据绑定；jq是先获取dom再处理
-        2.着重点不同
-            vue是数据驱动，jq是着重于页面
-        3.操作不同
-        4.未来发展不同
-    22.vuex的响应式处理。
-        vuex是vue的状态管理工具
-        vue中可以直接触发methods中的方法，vuex是不可以的。未来处理异步，当触发事件的时候，会通过dispatch来访问actions中的方法，actions中的commit会触发mutations中的方法从而修改state里的值，通过getter把数据更新到视图
-        Vue.use(vuex)，调用install方法，通过applyMixin(vue)在任意组件内执行this.$store就可以访问到store对象。
-        vuex的state是响应式的，借助的就是vue的data，把state存到vue实例组件的data中
-23.vue中遍历全局的方法有哪些？
+
+
+## 14.说一下vue的动态路由。
+    要在路由配置里设置meat属性，扩展权限相关的字段，在路由导航守卫里通过判断这个权限标识，实现路由的动态增加和跳转
+    根据用户登录的账号，返回用户角色
+    前端再根据角色，跟路由表的meta.role进行匹配
+    把匹配搭配的路由形成可访问的路由
+
+## 15.如何解决刷新后二次加载路由？
+1.window.location.reload()
+2.matcher
+    const router = createRouter()
+    export function resetRouter(){
+        const newRouter = creatRouter()
+        router.matcher = newRouter.matcher
+    }
+    
+## 16.vuex刷新数据会丢失吗？怎么解决？
+vuex肯定会重新获取数据，页面也会丢失数据
+1.把数据直接保存在浏览器缓存里（cookie  localstorage  sessionstorage）
+2.页面刷新的时候，再次请求数据，达到可以动态更新的方法
+    监听浏览器的刷新书简，在刷新前把数据保存到sessionstorage里，刷新后请求数据，请求到了用vuex，如果没有那就用sessionstorage里的数据
+## 17.computed和watch的区别？
+1.computed是计算属性，watch是监听，监听的是data中数据的变化
+2.computed是支持缓存，依赖的属性值发生变化，计算属性才会重新计算，否则用缓存；watch不支持缓存
+3.computed不支持异步，watch是可以异步操作
+4.computed是第一次加载就监听，watch是不监听
+5.computed函数中必须有return  watch不用
+## 18.vuex在什么场景会去使用？属性有哪些？
+    state       存储变量
+    getters     state的计算属性
+    mutations   提交更新数据的方法
+    actions     和mutations差不多，他是提交mutations来修改数据，可以包括异步操作
+    modules     模块化vuex
+    使用场景：
+        用户的个人信息、购物车模块、订单模块
+## 19.vue的双向数据绑定原理是什么？
+    通过数据劫持和发布订阅者模式来实现，同时利用Object.defineProperty()劫持各个属性的setter和getter，
+    在数据发生改变的时候发布消息给订阅者，触发对应的监听回调渲染视图，也就是说数据和视图时同步的，数据发生改变，视图跟着发生改变，视图改变，数据也会发生改变。
+    第一步：需要observer的数据对象进行递归遍历，包括子属性对象的属性，都加上setter和getter
+    第二步：compile模板解析指令，把模板中的变量替换成数据，然后初始化渲染视图，同时把每个指令对应的节点绑定上更新函数，添加订阅者，如果数据变化，收到通知，更新视图
+    第三步：Watcher订阅者是Observer和Compile之间的通信桥梁，作用：
+            1.在自身实例化的时候忘订阅器内添加自己
+            2.自身要有一个update()方法
+            3.等待属性变动时，调用自身的update方法，触发compile这种的回调
+    第四步：MVVM作为数据绑定的入口，整合了observer、compile和watcher三者，通过observer来监听自己的数据变化，通过compile解析模板指令，最后利用watcher把observer和compile联系起来，最终达到数据更新视图更新，视图更新数据更新的效果
+## 20.了解diff算法和虚拟DOM吗？
+    虚拟DOM，描述元素和元素之间的关系，创建一个JS对象
+    如果组件内有响应的数据，数据发生改变的时候，render函数会生成一个新的虚拟DOM，这个新的虚拟DOM会和旧的虚拟DOM进行比对，找到需要修改的虚拟DOM内容，然后去对应的真实DOM中修改
+    diff算法就是虚拟DOM的比对时用的，返回一个patch对象，这个对象的作用就是存储两个节点不同的地方，最后用patch里记录的信息进行更新真实DOM
+    步骤：
+        1.JS对象表示真实的DOM结构，要生成一个虚拟DOM，再用虚拟DOM构建一个真实DOM树，渲染到页面
+        2.状态改变生成新的虚拟DOM，跟就得虚拟DOM进行比对，这个比对的过程就是DIFF算法，利用patch记录差异
+        3.把记录的差异用在第一个虚拟DOM生成的真实DOM上，视图就更新了。
+## 21.vue和jquery的区别是什么？
+    1.原理不同
+        vue就是数据绑定；jq是先获取dom再处理
+    2.着重点不同
+        vue是数据驱动，jq是着重于页面
+    3.操作不同
+    4.未来发展不同
+## 22.vuex的响应式处理。
+    vuex是vue的状态管理工具
+    vue中可以直接触发methods中的方法，vuex是不可以的。未来处理异步，当触发事件的时候，会通过dispatch来访问actions中的方法，actions中的commit会触发mutations中的方法从而修改state里的值，通过getter把数据更新到视图
+    Vue.use(vuex)，调用install方法，通过applyMixin(vue)在任意组件内执行this.$store就可以访问到store对象。
+    vuex的state是响应式的，借助的就是vue的data，把state存到vue实例组件的data中
+## 23.vue中遍历全局的方法有哪些？
         1.普通遍历，对象.forEach()
             arr.forEach(function(item,index,arr){
                 console.log(item,index)
@@ -296,7 +300,7 @@
             })
         对象.evening()  遇到不符合的对象会停止
         对象.some()  找到符合条件的元素就停止
-24.如何搭建脚手架？
+## 24.如何搭建脚手架？
         下载：node  cnpm  webpack vue-cli
         创建项目：
             1.找到对应的文件，然后利用node指令创建（cmd）
@@ -308,7 +312,7 @@
             7.输入n
             8.不按照yarn
             9.输入npm run dev
-25.如何封装一个组件？
+## 25.如何封装一个组件？
         1.使用Vue.extend()创建一个组件
         2.使用Vue.components()方法注册组件
         3.如果子组件需要数据，可以在props中接收定义
@@ -317,28 +321,28 @@
             把功能拆开
             尽量让组件原子化，一个组件做一件事情
             容器组件管数据，展示组件管视图
-26.封装一个可复用的组件，需要满足什么条件？
+## 26.封装一个可复用的组件，需要满足什么条件？
         1.低耦合，组件之间的依赖越小越好
         2.最好从父级传入信息，不要在公共组件中请求数据
         3.传入的数据要进行校验
         4.处理事件的方法写在父组件中
-27.vue的过滤器怎么使用？
-        vue的特性，用来对文本进行格式化处理
-        使用它的两个地方，一个是插值表达式，一个是v-bind
-        分类：
-            1.全局过滤器
-                Vue.filter('add',function(v){
+## 27.vue的过滤器怎么使用？
+    vue的特性，用来对文本进行格式化处理
+    使用它的两个地方，一个是插值表达式，一个是v-bind
+    分类：
+        1.全局过滤器
+            Vue.filter('add',function(v){
+                return v < 10 ? '0' + v : v
+            })
+            <div>{{33 | add}}</div>
+        2.本地过滤器
+            和methods同级
+            filter:{
+                add:function(v){
                     return v < 10 ? '0' + v : v
-                })
-                <div>{{33 | add}}</div>
-            2.本地过滤器
-                和methods同级
-                filter:{
-                    add:function(v){
-                        return v < 10 ? '0' + v : v
-                    }
                 }
-28.vue中如何做强制刷新？
+            }
+## 28.vue中如何做强制刷新？
         1.localtion.reload()
         2.this.$router.go(0)
         3.provide和inject
