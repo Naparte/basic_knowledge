@@ -1,15 +1,10 @@
 function twoSum(nums: number[], target: number): number[] {
-  let map = new Map();
-
+  let hashMap = new Map();
   for (let i = 0; i < nums.length; i++) {
-    let item = nums[i];
-    let difference = target - item;
-
-    if (map.has(difference)) {
-      return [i, map.get(difference)];
+    if (hashMap.has(target - nums[i])) {
+      return [hashMap.get(target - nums[i]), i];
     }
 
-    map.set(item, i);
+    hashMap.set(nums[i], i);
   }
-  return [];
 }

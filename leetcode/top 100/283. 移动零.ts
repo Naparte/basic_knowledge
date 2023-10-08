@@ -2,18 +2,17 @@
  Do not return anything, modify nums in-place instead.
  */
 function moveZeroes(nums: number[]): void {
-  let zeroNums = 0;
-  let i = 0;
-  while (i < nums.length && i + zeroNums < nums.length) {
-    if (!nums[i + zeroNums]) {
-      zeroNums++;
-    } else {
-      nums[i] = nums[i + zeroNums];
-      i++;
-    }
-  }
+  let point = 0;
 
-  for (let j = nums.length - zeroNums; j < nums.length; j++) {
-    nums[j] = 0;
+  for (let i = 0; i < nums.length; i++) {
+    const item = nums[i];
+
+    if (item !== 0) {
+      nums[point] = item;
+      if (point !== i) {
+        nums[i] = 0;
+      }
+      point++;
+    } 
   }
 }
