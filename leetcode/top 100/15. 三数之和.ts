@@ -32,24 +32,6 @@ function threeSum(nums: number[]): number[][] {
       }
     }
 
-    // for (let j = i + 1; j < nums.length; j++) {
-    //   //   排序之后第二个 数字大于零可以跳过
-    //   if ((j > i + 1 && nums[j] === nums[j - 1]) || nums[i] + nums[j] > 0) {
-    //     continue;
-    //   }
-
-    //   let right = nums.length - 1;
-    //   while (j < right) {
-    //     if (nums[right] === nums[right + 1]) {
-    //       right--;
-    //       continue;
-    //     }
-    //     if (nums[i] + nums[j] + nums[right] === 0) {
-    //       result.push([nums[i], nums[j], nums[right]]);
-    //     }
-    //     right--;
-    //   }
-    // }
   }
 
   return result;
