@@ -10,26 +10,27 @@
  * }
  */
 
+function add(l1: ListNode | null, l2: ListNode | null, carry: number = 0) {
+  if (l1 === null && l2 === null) {
+    return carry ? new ListNode(carry) : null;
+  }
+
+  if (!l1) {
+    [l1, l2] = [l2, l1];
+  }
+
+  carry += (l1?.val || 0) + (l2?.val || 0);
+
+  l1.val = carry % 10;
+
+  l1.next = add(l1.next, l2?.next || null, carry > 9 ? 1 : 0);
+
+  return l1;
+}
+
 function addTwoNumbers(
   l1: ListNode | null,
   l2: ListNode | null
 ): ListNode | null {
-  let head = new ListNode();
-  let p = head;
-  let pre = 0;
-  while (l1 || l2 || pre) {
-    let ret = (l1 && l1.val) + ((l2 && l2.val) || 0) + pre;
-
-    pre = ret >= 10 ? 1 : 0;
-    p.val = ret % 10;
-
-    l1 = (l1 && l1.next) || null;
-    l2 = (l2 && l2.next) || null;
-    if (l1 || l2 || pre) {
-      p.next = new ListNode();
-      p = p.next;
-    }
-  }
-  p.next = null;
-  return head;
+  return add(l1, l2);
 }
