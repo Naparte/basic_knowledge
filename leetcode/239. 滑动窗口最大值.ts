@@ -1,23 +1,27 @@
 function maxSlidingWindow(nums: number[], k: number): number[] {
   let res: number[] = [];
-  let tempArr: number[] = [];
-  let j = 0;
-  let len = nums.length;
-  if (len <= k) {
-    return [Math.max(...nums)];
+  let que: number[] = [];
+
+  for (let i = 0; i < k; i++) {
+    while (que.length && nums[i] >= nums[que[que.length - 1]]) {
+      que.pop();
+    }
+
+    que.push(i);
   }
 
-  while (j < len) {
-    const item = nums[j];
-    tempArr.push(item);
+  res.push(nums[que[0]]);
 
-    if (tempArr.length === k) {
-      res.push(Math.max(...tempArr));
-      tempArr.shift();
-      j++;
-    } else if (tempArr.length < k) {
-      j++;
+  for (let i = k; i < nums.length; i++) {
+    while (que.length && nums[i] > nums[que[que.length - 1]]) {
+      que.pop();
     }
+    while (que.length && que[0] <= i - k) {
+      que.shift();
+    }
+    que.push(i);
+
+    res.push(nums[que[0]]);
   }
 
   return res;
